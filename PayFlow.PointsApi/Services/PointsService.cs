@@ -99,9 +99,43 @@ public class PointsService : IPointsService
         return new RedeemResult(true, account.Balance);
     }
 
-    public Task ReverseForOrderAsync(Guid customerId, Guid orderId) =>
-        throw new NotImplementedException(
-            "BUG #2: This handler is missing. See docs/bug-analysis/bug-02-cancellation-gap.md");
+    public async Task ReverseForOrderAsync(Guid customerId, Guid orderId)
+    {
+        if (await _repository.ReversalExistsForOrderAsync(orderId))
+        {
+            _logger.LogWarning("Reversal already exists for order {OrderId} — skipping (idempotent)", orderId);
+            return;
+        }
+
+        var original = await _repository.GetEarnTransactionForOrderAsync(orderId);
+        if (original is null)
+        {
+            _logger.LogWarning("No earn transaction found for order {OrderId} — nothing to reverse", orderId);
+            return;
+        }
+
+        var account = await _repository.GetOrCreateAccountAsync(customerId);
+        account.TryRedeem(original.Points);
+        await _repository.SaveAccountAsync(account);
+
+        await _repository.RecordTransactionAsync(new PointsTransaction
+        {
+            CustomerId = customerId,
+            OrderId = orderId,
+            Points = -original.Points,
+            Type = "reversal",
+            Description = $"Points reversed for cancelled order {orderId}"
+        });
+
+        await _eventBus.PublishAsync(new PointsDeductedEvent(
+            TransactionId: Guid.NewGuid(),
+            CustomerId: customerId,
+            OrderId: orderId,
+            PointsDeducted: original.Points,
+            Reason: "reversal",
+            NewBalance: account.Balance,
+            DeductedAt: DateTimeOffset.UtcNow));
+    }
 
     public async Task<int> GetBalanceAsync(Guid customerId)
     {

@@ -5,6 +5,7 @@ namespace PayFlow.PointsApi.Controllers;
 
 [ApiController]
 [Route("api/points")]
+[ApiExplorerSettings(GroupName = "points")]
 public class PointsController : ControllerBase
 {
     private readonly IPointsService _pointsService;

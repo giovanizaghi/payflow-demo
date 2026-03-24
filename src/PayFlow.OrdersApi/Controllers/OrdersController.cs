@@ -5,6 +5,7 @@ namespace PayFlow.OrdersApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiExplorerSettings(GroupName = "orders")]
 public class OrdersController : ControllerBase
 {
     private readonly IOrderService _orderService;
