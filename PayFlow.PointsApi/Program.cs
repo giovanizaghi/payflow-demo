@@ -1,8 +1,10 @@
 using Microsoft.OpenApi;
+using PayFlow.Shared.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

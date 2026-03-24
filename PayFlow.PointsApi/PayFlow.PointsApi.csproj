@@ -10,4 +10,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\PayFlow.Shared\PayFlow.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

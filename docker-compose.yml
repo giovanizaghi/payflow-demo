@@ -1,8 +1,8 @@
 services:
   payflow-points-api:
     build:
-      context: ./PayFlow.PointsApi
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: PayFlow.PointsApi/Dockerfile
     ports:
       - "8080:8080"
     restart: unless-stopped

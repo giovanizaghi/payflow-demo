@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/.vs/
+**/*.user
+PayFlow.PointsApi/Dockerfile
+PayFlow.PointsApi/.dockerignore
+.git/
+.gitignore
+README.md
+docker-compose.yml
