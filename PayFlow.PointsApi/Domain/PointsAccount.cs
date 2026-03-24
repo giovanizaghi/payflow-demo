@@ -29,11 +29,21 @@ public class PointsAccount
         ResetMonthlyCounterIfNeeded();
         var headroom = MonthlyEarningCap - EarnedThisMonth;
         var awarded = Math.Min(points, headroom);
+        // INTERNAL TEST HOOK: widening the race window between Balance and
+        // EarnedThisMonth writes allows unit tests to deterministically expose
+        // Bug #1 without needing probabilistic scheduling.
+        _onAfterAwardedComputed?.Invoke();
         Balance += awarded;
         EarnedThisMonth += awarded;
         LastUpdated = DateTimeOffset.UtcNow;
         return awarded;
     }
+
+    /// <summary>
+    /// Internal hook for test only. Set before concurrent calls to widen the
+    /// race window so Bug #1 manifests deterministically.
+    /// </summary>
+    internal Action? _onAfterAwardedComputed;
 
     public bool TryRedeem(int points)
     {
