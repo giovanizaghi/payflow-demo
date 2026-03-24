@@ -1,6 +1,7 @@
 using Microsoft.OpenApi;
 using PayFlow.PointsApi.Repositories;
 using PayFlow.PointsApi.Services;
+using PayFlow.Shared.Events;
 using PayFlow.Shared.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +24,16 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// BUG #2: OrderCancelledEvent subscription is MISSING here.
-// OrdersApi publishes it, but PointsApi never subscribes.
-// Fix: eventBus.Subscribe<OrderCancelledEvent>(async e =>
-//          await pointsService.ReverseForOrderAsync(e.CustomerId, e.OrderId));
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+
+// OrderCancelledEvent → reverse points
+eventBus.Subscribe<OrderCancelledEvent>(async e =>
+{
+    using var scope = scopeFactory.CreateScope();
+    var pointsService = scope.ServiceProvider.GetRequiredService<IPointsService>();
+    await pointsService.ReverseForOrderAsync(e.CustomerId, e.OrderId);
+});
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>

@@ -1,0 +1,193 @@
+{
+  "main": {
+    "id": "b496ad101f5b6b22",
+    "type": "split",
+    "children": [
+      {
+        "id": "a289ab112c924671",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b6bbca178530782b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "bug-analysis/BUG-02-qa-handoff.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BUG-02-qa-handoff"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f12682b9a85050b1",
+    "type": "split",
+    "children": [
+      {
+        "id": "0a556f1d7243fe28",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "56bb3ca623decc24",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "9bd0049cf5c1067b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1360f6c6555975c7",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "3ae1de1497c2f8de",
+    "type": "split",
+    "children": [
+      {
+        "id": "ffd6ba911debd3ff",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "46e1c5b173a03402",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "bug-analysis/BUG-02-qa-handoff.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for BUG-02-qa-handoff"
+            }
+          },
+          {
+            "id": "4eb7430cc69d8006",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "bug-analysis/BUG-02-qa-handoff.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from BUG-02-qa-handoff"
+            }
+          },
+          {
+            "id": "446e6bf92b5c8c1f",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ab98a06cbcb80b44",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "0c70462d3c72ceae",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "bug-analysis/BUG-02-qa-handoff.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of BUG-02-qa-handoff"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "b6bbca178530782b",
+  "lastOpenFiles": [
+    "bug-analysis/BUG-02-sequence-diagram.md",
+    "bug-analysis/BUG-02-qa-handoff.md",
+    "bug-analysis/REPRODUCE-BUG-02.md"
+  ]
+}

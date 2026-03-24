@@ -74,27 +74,13 @@ eventBus.Subscribe<OrderPlacedEvent>(async e =>
     await pointsService.EarnForOrderAsync(e.CustomerId, e.OrderId, e.OrderTotal);
 });
 
-// ================================================================
-// BUG #2: OrderCancelledEvent subscription is intentionally MISSING
-// ================================================================
-// OrdersApi publishes OrderCancelledEvent correctly (see OrderService.cs).
-// PointsApi never handles it — points are never reversed on cancellation.
-//
-// TO REPRODUCE THE BUG:
-//   1. POST /api/orders          → place order, points are earned automatically
-//   2. GET  /api/points/{id}/balance → see points credited
-//   3. DELETE /api/orders/{id}   → cancel order
-//   4. GET  /api/points/{id}/balance → points still there ← BUG
-//
-// TO FIX (uncomment after showing the bug live):
-//
-// eventBus.Subscribe<OrderCancelledEvent>(async e =>
-// {
-//     using var scope = scopeFactory.CreateScope();
-//     var pointsService = scope.ServiceProvider.GetRequiredService<IPointsService>();
-//     await pointsService.ReverseForOrderAsync(e.CustomerId, e.OrderId);
-// });
-// ================================================================
+// OrderCancelledEvent → reverse points
+eventBus.Subscribe<OrderCancelledEvent>(async e =>
+{
+    using var scope = scopeFactory.CreateScope();
+    var pointsService = scope.ServiceProvider.GetRequiredService<IPointsService>();
+    await pointsService.ReverseForOrderAsync(e.CustomerId, e.OrderId);
+});
 
 // ── Middleware pipeline ───────────────────────────────────────────────────────
 app.UseAuthorization();

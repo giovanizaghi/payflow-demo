@@ -132,12 +132,60 @@ public class PointsServiceTests
     }
 
     [Fact]
-    public async Task ReverseForOrder_ThrowsNotImplementedException()
+    public async Task ReverseForOrder_AfterEarn_BalanceIsZero()
     {
         var svc = CreateService(out _);
+        var customerId = Guid.NewGuid();
+        var orderId = Guid.NewGuid();
 
-        await Assert.ThrowsAsync<NotImplementedException>(
-            () => svc.ReverseForOrderAsync(Guid.NewGuid(), Guid.NewGuid()));
+        await svc.EarnForOrderAsync(customerId, orderId, 150m);
+        await svc.ReverseForOrderAsync(customerId, orderId);
+
+        var balance = await svc.GetBalanceAsync(customerId);
+        Assert.Equal(0, balance);
+    }
+
+    [Fact]
+    public async Task ReverseForOrder_CalledTwice_IsIdempotent()
+    {
+        var svc = CreateService(out _);
+        var customerId = Guid.NewGuid();
+        var orderId = Guid.NewGuid();
+
+        await svc.EarnForOrderAsync(customerId, orderId, 100m);
+        await svc.ReverseForOrderAsync(customerId, orderId);
+        await svc.ReverseForOrderAsync(customerId, orderId); // second call must be no-op
+
+        var balance = await svc.GetBalanceAsync(customerId);
+        Assert.Equal(0, balance);
+    }
+
+    [Fact]
+    public async Task ReverseForOrder_WhenNoEarnExists_DoesNothing()
+    {
+        var svc = CreateService(out _);
+        var customerId = Guid.NewGuid();
+
+        // No prior EarnForOrderAsync — should not throw, balance stays 0
+        await svc.ReverseForOrderAsync(customerId, Guid.NewGuid());
+
+        var balance = await svc.GetBalanceAsync(customerId);
+        Assert.Equal(0, balance);
+    }
+
+    [Fact]
+    public async Task ReverseForOrder_RecordsReversalTransaction()
+    {
+        var svc = CreateService(out _);
+        var customerId = Guid.NewGuid();
+        var orderId = Guid.NewGuid();
+
+        await svc.EarnForOrderAsync(customerId, orderId, 200m);
+        await svc.ReverseForOrderAsync(customerId, orderId);
+
+        var transactions = await svc.GetTransactionsAsync(customerId);
+        Assert.Equal(2, transactions.Count);
+        Assert.Contains(transactions, t => t.Type == "reversal" && t.OrderId == orderId);
     }
 
     /// <summary>
